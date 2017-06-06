@@ -3,6 +3,24 @@ import React, { PropTypes } from 'react';
 const CREDITCART = 'Creditcard';
 const BTC = 'Bitcoin';
 
+function Choice(props) {
+  const cssClasses = [];
+
+  if(props.active) {
+    cssClasses.push('active');
+
+  }
+  return (
+    <div
+      className='choice'
+      onClick={ props.onClick }
+      className= { cssClasses }
+    >
+      {props.label}
+    </div>
+  );
+}
+
 class Switch extends React.Component {
   constructor(props) {
     super(props);
@@ -12,7 +30,7 @@ class Switch extends React.Component {
   };
 
   this.select = this.select.bind(this);
-  this.renderChoice = this.renderChoice.bind(this);
+  // this.renderChoice = this.renderChoice.bind(this);
 }
 
 
@@ -20,24 +38,25 @@ class Switch extends React.Component {
     return (evt) => {
       this.setState({
         payMethod: choice
-      })
-    }
+      });
+    };
   }
-
-  renderChoice(choice) {
-    return (
-        <div className='choice active' onClick={ this.select(choice)}>
-          {choice}
-        </div>
-      );
-    }
 
 
   render() {
     return(
       <div className='switch'>
-        { this.renderChoice(CREDITCART) }
-        { this.renderChoice(BTC) }
+        <Choice
+          onClick={this.select(CREDITCART)}
+          active={this.state.payMethod === CREDITCART}
+          label={'Pay with Credit Card'}
+        />
+
+        <Choice
+          onClick={this.select(BTC)}
+          active={this.state.payMethod === BTC}
+          label={'Pay with Bitcoin'}
+        />
 
         Pay with: { this.state.payMethod }
       </div>
